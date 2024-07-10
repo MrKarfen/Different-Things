@@ -1,3 +1,7 @@
+## Язык | Language
+* [Русский](https://github.com/MrKarfen/Different-Things/edit/main/README.md#different-things-ru)
+* [English](https://github.com/MrKarfen/Different-Things#different-things-eng)
+
 # Different Things [RU]
 ![banner](https://github.com/MrKarfen/Different-Things/assets/89936556/f288c026-189c-4ffa-b6e8-eaedba33add4)
 
