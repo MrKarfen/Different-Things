@@ -45,3 +45,51 @@ Different Things - небольшой мод, добавляющий в игру
 * Bat13 - за дизайн и идею "Бульдога"
 * AndrewN - за базовую модель "Бофорса"
 * ThePlain - за плагин для Blender
+
+# Different Things [ENG]
+![banner](https://github.com/MrKarfen/Different-Things/assets/89936556/f288c026-189c-4ffa-b6e8-eaedba33add4)
+
+Different Things is a small modification that adds the Bulldog vehicle and ten new weapons to the game. In addition, this mod makes minor adjustments to the balance and corrects some bugs.
+
+Author - MrKarfen
+
+## Changes in Different Things
+* A Bulldog vehicle has been added. It has two cabins and two cargoes. You can buy in the locations "Krai", "Ridzin", "Vaterland".
+* Added a Trapper rocket launcher for a small weapon slot.
+* Added a DShK machine gun for a big weapon slot.
+* Added a "Bastard" shotgun for a big weapon slot.
+* Added a Bofors anti-aircraft assault rifle for a giant weapon slot.
+* New variants of some standard weapons have been added (all new variants have unique models): PKT, PKT-MK2, Vulkan-MK2, Storm-MK2, Rapier-MK2, American Hornet.
+* The Bumblebee and Omega grenade launchers have been improved.
+* The Cruiser vehicle has been added to the sale.
+* The icons of the cabins and cargoes of the Van and Lorry cars now correspond to their models from the Community Remaster.
+* Fixed the position of weapons at the barricades.
+### Changes made by the option "More phrases during the fight"
+* Added new phrases to the main character during the battle.
+### Changes made by the option "Alternative painting of the Bulldog vehicle"
+* Added lines to the cabin of the "Bulldog" vehicle.
+
+## Installation
+1. Установить Community Remaster со всеми дополнительными опциями.
+2. В DEM Community Mod Manager на вкладке Моды нажмите Добавить мод и укажите архив с DifferentThings.
+3. После его появления в списке модов нажмите Распаковать.
+4. После распаковки нажмите Установить и следуйте инструкциям мод-менеджера.
+
+## Compatible mods
+* Improved Storyline  (install before "Different Things")
+* Extra Machines  (install before "Different Things")
+* AmmoMiniMod Reborn  (install after "Different Things")
+* Textures Update  (install after "Different Things")
+
+## Screenshots
+![screen01](https://github.com/MrKarfen/Different-Things/assets/89936556/e64b1223-a970-4287-92fe-5a4c5a603b2b)
+![screen02](https://github.com/MrKarfen/Different-Things/assets/89936556/d9ce80a3-c62b-4b57-a46b-81b9cb80ff0a)
+![screen03](https://github.com/MrKarfen/Different-Things/assets/89936556/c55e9520-912a-4edd-ba8b-e237a201a7f8)
+![screen04](https://github.com/MrKarfen/Different-Things/assets/89936556/7327fba9-eda2-4589-9b1c-16b9f9296dfd)
+![screen05](https://github.com/MrKarfen/Different-Things/assets/89936556/10546814-c067-4eb2-bd43-89b71700949f)
+
+## Thanks
+* Seel - for the basic HD model of the "Bulldog"
+* Bat13 - for the design and idea of the "Bulldog"
+* AndrewN - for the basic "Bofors" model
+* ThePlain - for the Blender plugin
