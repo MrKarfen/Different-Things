@@ -1,0 +1,58 @@
+# unique service name
+name: DifferentThingsComRem
+language: ru
+installment: exmachina
+
+# required human readable info
+display_name: Different Things
+version: "1.3.3"
+build: "240809"
+description: |
+  Different Things - небольшой мод, добавляющий в игру автомобиль "Бульдог" и десять новых образцов оружия. Помимо этого данный мод вносит небольшие правки в баланс.
+authors: MrKarfen, Seel, AndrewN
+
+# optional human readable info
+logo: assets/logo.png
+install_banner: assets/banner.png
+release_date: 01.04.2023
+link: https://vk.com/mods_by_mrkarfen
+tags: [vehicles, weapons, gameplay, audio]
+change_log: assets/changelog_ru.md
+screenshots:
+    - img: assets/screen01.png
+      text: Бульдог, первая кабина, первый кузов. Вид спереди, скин 0.
+    - img: assets/screen02.png
+      text: Бульдог, первая кабина, первый кузов. Вид сзади, скин 1.    
+    - img: assets/screen03.png
+      text: Бульдог, вторая кабина, второй кузов. Вид спереди, скин 2.    
+    - img: assets/screen04.png
+      text: Бульдог, вторая кабина, второй кузов. Вид сзади, скин 3.    
+    - img: assets/screen05.png
+      text: Крейсер с оружием "ДШК" и "Бофорс".    
+    
+translations: [eng]
+variants: [ExtraMachines, isl, islem]
+# installation confguration
+prerequisites: 
+  - name: community_remaster
+    versions:
+      - ">=1.14"
+    optional_content:
+    - hd_gun_models
+    - hd_vehicle_models 
+patcher_version_requirement: "2.1"
+no_base_content: false
+data_dirs:
+  - "basic_files/data"
+options_base_dir: "options"
+compatible_patch_versions: true
+optional_content:
+  - name: Sounds
+    display_name: Больше фраз во время боя 
+    description: |
+      Добавленны новые фразы во время боя у главного героя.
+  - name: BulldogSkins
+    default_option: skip  
+    display_name: Альтернативные скины Бульдога
+    description: |
+      На скинах Бульдога теперь есть полоски.    

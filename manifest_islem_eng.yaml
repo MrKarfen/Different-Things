@@ -1,0 +1,68 @@
+# unique service name
+name: DifferentThingsComRem_ISL_ExtraMachines
+language: eng
+installment: exmachina
+
+# required human readable info
+display_name: Different Things [ISL + ExtraMachines]
+description: |
+  Different Things is a small modification that adds the Bulldog vehicle and ten new weapons to the game. In addition, this mod makes minor adjustments to the balance.
+authors: MrKarfen, Seel, AndrewN
+
+# optional human readable info
+logo: assets/logo.png
+install_banner: assets/banner.png
+release_date: 01.04.2023
+link: https://vk.com/mods_by_mrkarfen
+tags: [vehicles, weapons, gameplay, audio]
+change_log: assets/changelog_eng.md
+screenshots:
+    - img: assets/screen01.png
+      text: The first version of the configuration of the Bulldog vehicle. Front view. Color 0.
+    - img: assets/screen02.png
+      text: The first version of the configuration of the Bulldog vehicle. Back view. Color 1.    
+    - img: assets/screen03.png
+      text: The second version of the configuration of the Bulldog vehicle. Front view. Color 2.    
+    - img: assets/screen04.png
+      text: The second version of the configuration of the Bulldog vehicle. Back view. Color 3.    
+    - img: assets/screen05.png
+      text: The Cruiser vehicle with the DShK and Bofors weapons installed.    
+    
+# installation confguration
+prerequisites: 
+  - name: community_remaster
+    versions:
+      - ">=1.14"
+    optional_content:
+    - hd_gun_models
+    - hd_vehicle_models
+    - english_localization
+  - name: [improved_storyline_hd]
+    versions:
+     - ">=1.2"
+  - name: ExtraMachines_ISL
+    versions:
+     - "=1.2"
+patcher_version_requirement: "2.1"
+no_base_content: false
+data_dirs:
+  - "basic_files/data"
+  - "basic_files/data_isl"
+  - "basic_files/data_isl_em"
+options_base_dir: "options"
+compatible_patch_versions: true
+optional_content:
+  - name: Sounds
+    display_name: More phrases during the fight
+    description: |
+      Adds new phrases to the main character during the battle.
+  - name: BulldogSkins
+    default_option: skip  
+    display_name: Alternative painting of the "Bulldog"
+    description: |
+      Adds lines to the cabin of the "Bulldog" vehicle.    
+  - name: english_localization_isl
+    display_name: English Localization
+    forced_option: True
+    description: |
+      English localization for a "Different Things" modification

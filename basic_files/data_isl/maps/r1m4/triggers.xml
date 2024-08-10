@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="windows-1251" standalone="yes" ?>
+<triggers>
+
+<!-- Different Things -->
+	<trigger Name="trDTWorkshop" active="1">
+		<event eventid="GE_GAME_START" ObjName="Player1" />
+		<script>
+			DTWorkshops(14)
+		    trigger:Deactivate()
+		</script>
+	</trigger>
+<!-- Different Things -->
+
+	<!-- Инициализация карты -->
+	<trigger	Name="GlobalVar"	active="1">
+		<event	timeout="0.1"		eventid="GE_TIME_PERIOD" />
+		<script>
+			SetVar("Boloto",0)
+			SetVar("SubMarPh",0)
+			SetVar("Ryba",0)
+			SetVar("KnownMap",0)
+			SetVar("MainCarDead",0)
+			SetVar("FarmerDickRejection",0)
+			SetVar("RemovedSackWall", 0)
+			SetVar("AutoSaveCount", 0)
+			if GAME_VERSION then SetVar("ISLVersion", GAME_VERSION) end
+			
+			CreateNewDummyObject( "big_crag_5", "kamexp1", -1, -1, CVector(2059.066, 257.000, 3559.212), Quaternion(0.3953, -0.0829, -0.2476, 0.8807), 0)
+			CreateNewDummyObject( "big_crag_12", "kamexp2", -1, -1, CVector(2052.101, 263.000, 3567.510), Quaternion(-0.3090, 0.0000, 0.0000, 0.9511), 0)
+			CreateNewDummyObject( "big_stone4", "kamexp3", -1, -1, CVector(2057.401, 261.000, 3551.166), Quaternion(0.0000, 0.0000, 0.0000, 1.0000), 0)
+			CreateNewDummyObject( "big_stone2", "kamexp4", -1, -1, CVector(2070.257, 260.000, 3555.813), Quaternion(0.0000, 0.0000, 0.0000, 1.0000), 0)
+
+			CreateNewDummyObject("flagshtock", "StorageFlag", -1, -1, CVector(828.723, 324.875, 2605.772), Quaternion(0.0000, 0.9594, 0.0000, -0.2819), 2)
+
+			local i=1
+			local gunlist = {"hornet01","specter01","pkt01","kord01","storm01","vector01","vulcan01","kpvt01","rapier01","flag01","rainmetal01","bumblebee01"}
+			local len = getn(gunlist)
+
+			while getObj("SecretPlace"..i.."_loc")~=nil do
+				CreateBoxWithAffixGun(CVector(getPos("SecretPlace"..i.."_loc")), gunlist[exrandom(len)], random(3))
+				i = i + 1
+			end
+
+			if QuestStatus("d_FindVrata_Quest")==Q_TAKEN then
+				local kar = CreateVehicleEx("r2m2_CaravanUral02", "CaravanFromR1M3", CVector(2724.686, 227.850, 523.578), 1010, Quaternion(0.001, -0.130, 0.011, 0.991))
+				if kar then
+					kar:SetExternalPathByName("CaravanR1M3_path01")
+					kar:SetSkin(2)
+				end
+			end
+
+		    trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Удаление субмарины при каждой загрузке карты -->
+	<trigger	Name="trStartMap"	active="1">
+		<event eventid="GE_GAME_START" ObjName="Player1" />
+		<script>
+			local submar = getObj("Subm")
+			if submar then
+				submar:Remove()
+			end
+			trigger:Deactivate()
+	
+		</script>
+	</trigger>
+
+	<!-- Автосохранение -->
+	<trigger Name="trAutoSave" active="0">
+		<event	timeout="1"		eventid="GE_TIME_PERIOD" />
+		<script>
+			if GetVar("AutoSaveCount").AsInt == 0 then
+				SetVar("AutoSaveCount", 1)
+				AutoSave(STR_FIGHT_WITH_CLAW_R1M4)
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Создание объектов в порту -->
+	<trigger	Name="trStandartGate" active="1">
+		<event	timeout="1"	eventid="GE_TIME_PERIOD" />
+		<script>
+
+			if not(getObj("OpenGateStr11")) then
+				CreateNewDummyObject( "metal_plate1", "OpenGateStr11", -1, -1, CVector(725.796, 272.914, 1489.619), Quaternion(-0.6660, 0.2375, 0.2375, 0.6660), 0)
+			end
+			if not(getObj("OpenGateStr12")) then
+				CreateNewDummyObject( "metal_plate1", "OpenGateStr12", -1, -1, CVector(712.751, 273.106, 1477.371), Quaternion(-0.3455, -0.6169, -0.6169, 0.3455), 0)
+			end
+			if not(getObj("OpenGateStr21")) then
+				CreateNewDummyObject( "metal_plate1", "OpenGateStr21", -1, -1, CVector(745.147, 273.106, 1470.527), Quaternion(-0.3455, -0.6169, -0.6169, 0.3455), 0)
+			end
+			if not(getObj("OpenGateStr22")) then
+				CreateNewDummyObject( "metal_plate1", "OpenGateStr22", -1, -1, CVector(729.657, 273.179, 1458.787), Quaternion(-0.1304, -0.6950, -0.6950, 0.1304), 0)
+			end
+
+			if not(getObj("RustyCar")) then
+				CreateNewDummyObject( "car_cemetery04", "RustyCar", -1, -1, CVector(882.838, 268.263, 1320.603), Quaternion(0.0000, 0.5931, 0.0000, 0.8052), 0)
+			end                                                                                  
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Болото закрыто. Фейковый выбор. -->
+	<trigger	Name="BolotoChoice"	active="1">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="MorassRoad_loc" />
+		<script>
+			local b = SpawnMessageBox( "8828" )
+			if b == 1 then
+				TActivate("TE14Begin")
+			else
+				if CanQuestBeGiven("r1m4_OvercomeMirras") then
+					TakeQuest("r1m4_OvercomeMirras")
+				end
+				TActivate("RolikBegin_BolotoOF")
+			end
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Создание и удаление Гомера -->
+	<trigger Name="CreateHomerRybak" active="0">
+		<event	timeout="0.01"		eventid="GE_TIME_PERIOD" />
+		<script>
+			CreateNewDummyObject( "dweller_homer", "humGomer", -1, -1, CVector(3502.483, 208.900, 3717.994), Quaternion(0.0000, 0.0000, 0.0000, 1.0000), 2)
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="DeleteHomerRybak" active="0">
+		<event	timeout="0.01"		eventid="GE_TIME_PERIOD" />
+		<script>
+			local humGom = GetEntityByName("humGomer")
+			if humGom then humGom:Remove() end
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Болото открыто. Переезд от деревни к порту. -->
+	<trigger	Name="trMorassTeleportBefore"	active="0">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="MorassRoad_loc" />
+		<script>
+			TActivate("RolikBegin_Boloto")
+			if QuestStatus("r1m4_OvercomeMirras")==Q_TAKEN then
+				CompleteQuestIfTaken("r1m4_OvercomeMirras")
+			end
+			TDeactivate("trMorassTeleportAfter")
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Переезд от порта к деревне -->
+	<trigger	Name="trMorassTeleportAfter"	active="1">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="MorassRoad2_loc" />
+		<script>
+			TActivate("RolikBegin_PortOut")
+			TDeactivate("trMorassTeleportBefore")
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Битва с боссом -->
+	<trigger Name="trMoveToBoss" active="0">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="NearBoss_loc" />
+		<script>
+			TActivate("trAutoSave")
+			
+			TActivate("RolikBegin_Boss02")
+
+			AllowSave(false)
+
+			trigger:Deactivate() 
+ 		</script>
+	</trigger>
+
+	<trigger	Name="trBoss1Die"	active="1">
+		<event	eventid="GE_OBJECT_DIE"		ObjName="bigboss1" />
+		<script>
+		    TActivate("trGateOpen")
+			TActivate("trMovePlToR3M1")
+
+			AddHistory( "r1_After_Boss1" )
+			AddFadingMsgId( "fm_history_got" )
+			
+			StopPlayingCustomMusic()
+
+			AllowSave(true)
+
+		    trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Манипуляции с воротами во время битвы с боссом -->
+	<trigger	Name="trGateOpen" active="0">
+		<event	timeout="1"	eventid="GE_TIME_PERIOD" />
+		<script>
+
+			for i=1,2 do
+			  local gt1=getObj("CloseGateStr1"..i)
+			  local gt2=getObj("CloseGateStr2"..i)
+			  local rc=getObj("RustyCar")
+
+			  if gt1 then gt1:Remove() end
+			  if gt2 then gt2:Remove() end
+			  CreateEffectTTLed("ET_PS_BRIDGE_EXP_MAIN", CVector(880.770, 269.000, 1331.851), Quaternion(0.0000, 0.0000, 0.0000, 1.0000), 5000)
+			  if rc then rc:Remove() end
+			end
+
+			if not(getObj("OpenGateStr11")) then
+				CreateNewDummyObject( "metal_plate1", "OpenGateStr11", -1, -1, CVector(725.796, 271.914, 1489.619), Quaternion(-0.6660, 0.2375, 0.2375, 0.6660), 0)
+			end
+			if not(getObj("OpenGateStr12")) then
+				CreateNewDummyObject( "metal_plate1", "OpenGateStr12", -1, -1, CVector(712.751, 272.106, 1477.371), Quaternion(-0.3455, -0.6169, -0.6169, 0.3455), 0)
+			end
+			if not(getObj("OpenGateStr21")) then
+				CreateNewDummyObject( "metal_plate1", "OpenGateStr21", -1, -1, CVector(745.147, 272.106, 1470.527), Quaternion(-0.3455, -0.6169, -0.6169, 0.3455), 0)
+			end
+			if not(getObj("OpenGateStr22")) then
+				CreateNewDummyObject( "metal_plate1", "OpenGateStr22", -1, -1, CVector(729.657, 272.179, 1458.787), Quaternion(-0.1304, -0.6950, -0.6950, 0.1304), 0)
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger	Name="trGateClose" active="0">
+		<event	timeout="0.1"	eventid="GE_TIME_PERIOD" />
+		<script>
+
+			for i=1,2 do
+			  local gt1=getObj("OpenGateStr1"..i)
+			  local gt2=getObj("OpenGateStr2"..i)
+
+			  if gt1 then gt1:Remove() end
+			  if gt2 then gt2:Remove() end
+
+			end
+
+			if not(getObj("CloseGateStr11")) then
+				CreateNewDummyObject( "metal_plate1", "CloseGateStr11", -1, -1, CVector(737.067, 273.178, 1471.946), Quaternion(-0.6402, -0.3002, -0.3002, 0.6402), 0)
+			end
+			if not(getObj("CloseGateStr12")) then
+				CreateNewDummyObject( "metal_plate1", "CloseGateStr12", -1, -1, CVector(729.467, 273.018, 1465.505), Quaternion(0.2244, -0.6706, -0.6706, -0.2244), 0)
+			end
+			if not(getObj("CloseGateStr21")) then
+				CreateNewDummyObject( "metal_plate1", "CloseGateStr21", -1, -1, CVector(727.205, 274.214, 1481.415), Quaternion(-0.6601, -0.2534, -0.2534, 0.6601), 0)
+			end
+			if not(getObj("CloseGateStr22")) then
+				CreateNewDummyObject( "metal_plate1", "CloseGateStr22", -1, -1, CVector(720.314, 274.181, 1475.242), Quaternion(-0.6335, -0.3141, -0.3141, 0.6335), 0)
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Выехали из Ольма. Диалог с Лисой. -->
+	<trigger Name="trPrePeregovorRolikStart" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+			TActivate("PeregovorRolikStart")
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+<!-- подъехали близко к каравану-->
+	<trigger	Name="trNearCaravanLeader"	active="0">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="LeaderCaravanStart_loc" />
+		<script>
+
+			SetTolerance(1100, 1010, RS_NEUTRAL)
+
+			TActivate("RolikBegin_NearCaravanLeader")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Приехали зачищать склад с ТСП -->
+	<trigger Name="WaitTillSklad" active="0">
+		<event eventid="GE_OBJECT_ENTERS_LOCATION" ObjName="KillSkladGuys_loc" />
+		<script>
+			CompleteQuest("WaitTillEnd1")
+			TActivate("KSGRolikBegin")
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Берём тёплую одежду со склада -->
+	<trigger Name="RolikOdezhdaBegin" active="0">
+		<event eventid="GE_OBJECT_ENTERS_LOCATION" ObjName="SlkadOdezhdaLoc" />
+		<script>
+			TActivate("RolikOdezhdaStart")
+			
+			CompleteQuestIfTaken("FreeExtremistLeader_Quest5")
+			CompleteQuestIfTaken("WaitTillEnd3")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Привязка Лисы к машине игрока -->
+	<trigger Name="LisaPrivz" active="0">
+		<event	timeout="0.01"		eventid="GE_TIME_PERIOD" />
+		<script>
+			local newControllerId = CreateNewObject {
+				prototypeName	= "someNPCMotionController",
+				objName		= "LisaCont"
+			}
+
+			local newController = GetEntityByID(newControllerId)
+			local FVehicle = GetEntityByName("CARLISA1_vehicle_0")
+			if FVehicle then
+				newController:setVehicleUnderControl(FVehicle)
+			end
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Подъехали к тоннелю. Подрываем. -->
+	<trigger Name="ExplosRolikBegin" active="0">
+		<event eventid="GE_OBJECT_ENTERS_LOCATION" ObjName="KamexpLoc" />
+		<script>
+			TActivate("ExplosRolikStart")
+			CompleteQuest("GoToLiden_Quest2")
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Подъезжаем к самолёту -->
+	<trigger Name="SpecEndTrStart" active="1">
+		<event eventid="GE_OBJECT_ENTERS_LOCATION" ObjName="SpecEndPlane_loc" />
+		<event eventid="GE_OBJECT_ENTERS_LOCATION" ObjName="SpecEndPlane2_loc" />
+		<script>
+			if QuestStatus("ToAivenToHel_Quest")==Q_TAKEN then
+				TActivate("PlaneRBegin")
+				CompleteQuest("ToAivenToHel_Quest")
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+
+	<!-- Последний разговор с Айвеном. Истинная концовка. -->
+	<trigger Name="RTMRolikStart" active="0">
+		<event eventid="GE_OBJECT_ENTERS_LOCATION" ObjName="RTMRolik_loc" />
+		<script>
+			if QuestStatus("RevealTheMask_Quest")==Q_TAKEN then
+				CompleteQuest("RevealTheMask_Quest")
+				TActivate("RTMRolikBegin")
+				local vehPlayer = GetPlayerVehicle()
+				if vehPlayer then
+					vehPlayer:SetCustomControlEnabled( true )
+					vehPlayer:SetCustomLinearVelocity( 0 )
+					vehPlayer:SetThrottle( 0 )
+					vehPlayer:SetCustomControlEnabled( false )
+				end
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+
+	<!-- Довезли рыбака из Салиниома до Ольма -->
+	<trigger	Name="RybakToOlm"	active="0">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="RybakLoc" />
+		<script>
+			CompleteQuest("RybakToOlm_Quest")
+			RemoveQuestItem("Rybak_P")
+			AddFadingMsgByStrIdFormatted( "fm_player_rem_poput", "Rybak_P")
+			StartConversation("FVBerko_Bar_Customer2_1")
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Рыбак предупреждает нас о гневе ТСП -->
+	<trigger Name="RrybakRoadStart" active="0">
+		<event eventid="GE_OBJECT_ENTERS_LOCATION" ObjName="RrybakRoad_loc" />
+		<script>
+			TActivate("RRRolikBegin")
+			SetVar("Ryba",1)
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Переход в Фатерлянд -->
+	<trigger Name="trConv" active="1">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="ExitFromMap" />
+		<script>
+			local Plf = GetPlayerVehicle()
+			if Plf then
+				Plf:SetThrottle( 0 )
+				Plf:SetCustomLinearVelocity( 0 )
+			end
+
+			local PlfID = GetPlayerVehicleId()
+			local PlfCoor = Plf:GetPosition()
+			PlfCoor.x = PlfCoor.x - 10
+			PlfCoor.y = PlfCoor.y + 5
+			PlfCoor.z = PlfCoor.z - 15
+
+			ValidateGameVersion()
+			if QuestStatus("FreeExtremistLeader_Quest1")~=Q_TAKEN then
+				local b = SpawnMessageBox( "8801" )
+				if b == 1 then
+					TDeactivate("RrybakRoadStart")
+
+					local kar = GetEntityByName("CaravanFromR1M3")
+					if kar then kar:Remove() end
+
+					PassToMap("r1m3", "FromR1M4", -1 )
+				else
+					SaveAllToleranceStatus(RS_NEUTRAL)
+
+					FlyAround(0.1, 0, 25, 3, PlfCoor, PlfID, 1, 1)
+					StartCinematic()
+
+					TActivate("trConv_Fade")
+					TActivate("trConv_End")
+				end
+			else
+				SaveAllToleranceStatus(RS_NEUTRAL)
+
+				FlyAround(0.1, 0, 25, 3, PlfCoor, PlfID, 1, 1)
+				StartCinematic()
+
+				TActivate("trConv_Fade")
+				TActivate("trConv_End")
+			end
+ 		</script>
+	</trigger>
+	<trigger Name="trConv_Fade" active="0">
+		<event eventid="GE_CINEMATIC_ENTER_FADE_IN" ObjName="Player1" />
+		<script>
+			
+			local Plf = GetPlayerVehicle()
+			Plf:SetThrottle( 0 )
+			Plf:SetCustomLinearVelocity( 0 )
+
+			trigger:Deactivate()    
+		</script>
+	</trigger>
+	<trigger Name="trConv_End" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+			RestoreAllToleranceStatus()
+			
+			Plf = GetPlayerVehicle()
+			Plf:SetGamePositionOnGround(CVector(2740.853, 228.788, 489.311))
+			Plf:SetRotation(Quaternion(-0.025, -0.193, 0.010, 0.981))
+
+			SetCameraBehindPlayerVehicle()
+
+			TDeactivate("trConv_Fade")
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Переход в Лиденклауд -->
+	<trigger Name="triggerExitToMap16" active="0">
+		<event eventid="GE_OBJECT_ENTERS_LOCATION" ObjName="ToR1M6" />
+		<script>
+			local Plf = GetPlayerVehicle()
+			Plf:SetThrottle( 0 )
+			Plf:SetCustomLinearVelocity( 0 )
+
+			local PlfID = GetPlayerVehicleId()
+			local PlfCoor = Plf:GetPosition()
+			PlfCoor.x = PlfCoor.x + 5
+			PlfCoor.y = PlfCoor.y + 5
+			PlfCoor.z = PlfCoor.z - 30
+
+			ValidateGameVersion()
+
+			local b = SpawnMessageBox( "8801" )
+			if b == 1 then
+				if QuestStatus("GoToLiden_Quest3")==Q_TAKEN then
+					SetGameTime(9,0)
+				end
+				PassToMap("r1m6", "FromR1M4", -1 )
+			else
+				SaveAllToleranceStatus(RS_NEUTRAL)
+
+				FlyAround(0.1, 0, -25, 3, PlfCoor, PlfID, 1, 1)
+				StartCinematic()
+
+				TActivate ("RolikExitToMap16")
+				TActivate ("RolikENDExitToMap16")
+				
+			end
+ 		</script>
+	</trigger>
+	<trigger Name="RolikExitToMap16" active="0">
+		<event eventid="GE_CINEMATIC_ENTER_FADE_IN" ObjName="Player1" />
+		<script>
+			
+			local Plf = GetPlayerVehicle()
+			Plf:SetThrottle( 0 )
+			Plf:SetCustomLinearVelocity( 0 )
+
+			trigger:Deactivate()    
+		</script>
+	</trigger>
+	<trigger Name="RolikENDExitToMap16" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+			RestoreAllToleranceStatus()
+
+			local vehPlayer = GetPlayerVehicle()
+			if vehPlayer then
+				vehPlayer:SetGamePositionOnGround( CVector(2081.994, 259.381, 3520.942))
+				vehPlayer:SetRotation(Quaternion(-0.000, 0.969, 0.000, 0.246))
+			end
+
+			TDeactivate( "RolikExitToMap16" )
+
+			SetCameraBehindPlayerVehicle()
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Переход в Рощу Друидов -->
+	<trigger Name="trMovePlToR3M1" active="0">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="EnterToSubmarine_loc" />
+		<script>
+			CompleteQuestIfTaken("r1m4_FindVrata_GotoToGate")
+
+			if IsQuestItemPresent( "quest_key_for_submarine" ) or  IsQuestItemPresent( "quest_key_for_submarine1" ) then
+				local vehPl = GetPlayerVehicle()
+				if vehPl then
+					vehPl:SetThrottle( 0 )
+					vehPl:SetCustomLinearVelocity(0)
+				end
+				local PlfID = GetPlayerVehicleId()
+				local PlfCoor = vehPl:GetPosition()
+				PlfCoor.x = PlfCoor.x + 30
+				PlfCoor.y = PlfCoor.y + 5
+				PlfCoor.z = PlfCoor.z - 50
+
+				ValidateGameVersion()
+
+				if QuestStatus("FreeExtremistLeader_Quest1")~=Q_TAKEN then
+					local b = SpawnMessageBox( "8801" )
+					if b == 1 then
+						TActivate("cinMovePlToR3M1_begin")
+						local kar = GetEntityByName("CaravanFromR1M3")
+						if kar then kar:Remove() end
+					else
+						SaveAllToleranceStatus(RS_NEUTRAL)
+
+						FlyAround(0.1, 0, -100, 3, PlfCoor, PlfID, 1, 1)
+						StartCinematic()
+
+						TActivate ("trMovePlToR3M1_Fade")
+						TActivate ("trMovePlToR3M1_End")
+					end
+				else
+					SaveAllToleranceStatus(RS_NEUTRAL)
+
+					FlyAround(0.1, 0, -100, 3, PlfCoor, PlfID, 1, 1)
+					StartCinematic()
+
+					TActivate ("trMovePlToR3M1_Fade")
+					TActivate ("trMovePlToR3M1_End")
+				end
+			else
+				AddImportantFadingMsgId( "fm_key_lost" )
+			end
+ 		</script>
+	</trigger>
+	<trigger Name="trMovePlToR3M1_Fade" active="0">
+		<event eventid="GE_CINEMATIC_ENTER_FADE_IN" ObjName="Player1" />
+		<script>
+			
+			local Plf = GetPlayerVehicle()
+			Plf:SetThrottle( 0 )
+			Plf:SetCustomLinearVelocity( 0 )
+
+			trigger:Deactivate()    
+		</script>
+	</trigger>
+	<trigger Name="trMovePlToR3M1_End" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+			RestoreAllToleranceStatus()
+
+			local Plf = GetPlayerVehicle()
+			if Plf then
+				Plf:SetGamePositionOnGround( CVector(770.100, 224.031, 807.123))
+				Plf:SetRotation(Quaternion(0.019, 0.001, -0.000, -1.000))
+			end
+
+			TDeactivate( "trMovePlToR3M1_Fade" )
+
+			SetCameraBehindPlayerVehicle()
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+</triggers>

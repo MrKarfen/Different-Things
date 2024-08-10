@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="windows-1251" standalone="yes" ?>
+
+<Prototypes>
+	<Folder Name = "Chassis">
+		<Prototype
+			Class		= "Chassis"
+			Name		= "bulldogShassis"
+			ModelFile 	= "bulldogshassis"
+			ResourceType	= "BULLDOG_CHASSIS"
+			NodeScale	= "1 1 1"
+
+			Price		= "6000"
+			RepairCoef	= "0.2"
+
+			Mass		= "60.0" 
+			MaxHealth	= "1000" 
+			MaxFuel   	= "400" 
+			BrakingSound	="ET_S_BRAKE01"
+			PneumoSound	="ET_S_PNEUMO_BRAKE01"
+			GearShiftSound	="ET_S_GEAR_SHIFT01"
+			LoadPoints	= "LP_CAB01 LP_BSK01" >
+				<GroupsHealth
+					Main   = "10000"	
+				/>
+		</Prototype>
+
+	</Folder>
+
+	<Folder Name = "Cabins">
+		<Prototype
+			Class				= "Cabin"
+			Name				= "bulldogCab01"
+			ModelFile 			= "bulldogcab01"
+			ResourceType			= "BULLDOG_CABIN"
+			NodeScale			= "1 1 1"
+			Durability 			= "75"
+			DurCoeffsForDamageTypes             	= "20 10 10"
+			VisibleInEncyclopedia                         = "true"
+
+                                         FuelConsumption                                = "0.15"
+
+			Mass				= "40.0"
+			MaxPower			= "120"
+			BlowEffect                            	= "ET_PS_VEH_PART_BLOW_SMALL_CAB"
+			EngineHighSound    		= "ET_S_ENGINE_SCOUT_1_HIGH"
+			MaxTorque			= "70"
+			Price				= "3100"	
+			MaxSpeed			= "120.0"
+			LoadPoints			= "LP_SML01" >
+			<GadgetDescription>
+				<Slot
+					ResourceType	= "GADGET_COMMON"
+					MaxAmount	= "1" />
+				<Slot
+					ResourceType	= "GADGET_WEAPON"
+					MaxAmount	= "2" />  					
+			</GadgetDescription>
+				<GroupsHealth
+					Main            = "0" 
+					Breakable1   = "0.2"	
+				    	Breakable2   = "0.6"
+					Breakable3   = "0.4"
+					Breakable4   = "0.4"
+					Breakable5   = "0.4"
+				/>
+		</Prototype>
+
+		<Prototype
+			Class				= "Cabin"
+			Name				= "bulldogCab02"
+			ModelFile 			= "bulldogcab02"
+			ResourceType			= "BULLDOG_CABIN"
+			NodeScale			= "1 1 1"
+			Durability 			= "90"
+			DurCoeffsForDamageTypes             	= "20 10 10"
+			VisibleInEncyclopedia                         = "true"
+
+                                         FuelConsumption                                = "0.15"
+
+			Mass				= "45.0"
+			MaxPower			= "120"
+			BlowEffect                            	= "ET_PS_VEH_PART_BLOW_SMALL_CAB"
+			EngineHighSound    		= "ET_S_ENGINE_SCOUT_1_HIGH"
+			MaxTorque			= "70"
+			Price				= "10000"	
+			MaxSpeed			= "170.0"
+			LoadPoints			= "LP_SML01 LP_SML02" >
+			<GadgetDescription>
+				<Slot
+					ResourceType	= "GADGET_COMMON"
+					MaxAmount	= "3" />
+				<Slot
+					ResourceType	= "GADGET_WEAPON"
+					MaxAmount	= "3" />    					
+			</GadgetDescription>
+				<GroupsHealth
+					Main            = "0" 
+					Breakable1   = "0.2"	
+				    	Breakable2   = "0.6"
+					Breakable3   = "0.4"
+					Breakable4   = "0.4"
+					Breakable5   = "0.4"
+				/>
+		</Prototype>		
+	</Folder>
+
+	<Folder
+		Name = "Baskets">
+		<Prototype
+			Class				= "Basket"
+			Name				= "bulldogCargo01"
+			VisibleInEncyclopedia   = "false"
+			ModelFile			= "bulldogcargo1"
+			ResourceType		= "BULLDOG_BASKET"
+			Durability			= "50"
+			DurCoeffsForDamageTypes	= "2 15 14"
+			NodeScale			= "1 1 1"
+			BlowEffect	= "ET_PS_VEH_PART_BLOW_SMALL_CAB"
+
+
+			Price				= "1300"
+			RepairCoef			= "0.2"
+
+			Mass				= "15.0"
+			LoadPoints			= "NO_LP" >
+			<RepositoryDescription
+				RepositorySize		= "4 2">
+				<Slot
+					Name		= "BASKET_SPECIAL_WEAPON"
+					Pos		= "8 8"
+				/>
+			</RepositoryDescription>
+			<GroupsHealth
+				Main   = "0"	
+				Breakable1   = "0.7"	
+			    	Breakable2   = "0.7"
+				Breakable3   = "0.5"
+				Breakable4   = "0.7"
+			/>			
+		</Prototype>
+		
+		<Prototype
+			Class				= "Basket"
+			Name				= "bulldogCargo02"
+			VisibleInEncyclopedia   = "false"
+			ModelFile			= "bulldogcargo2"
+			ResourceType		= "BULLDOG_BASKET"
+			Durability			= "60"
+			DurCoeffsForDamageTypes	= "2 15 14"
+			NodeScale			= "1 1 1"
+			BlowEffect	= "ET_PS_VEH_PART_BLOW_SMALL_CAB"
+
+
+			Price				= "1700"
+			RepairCoef			= "0.2"
+
+			Mass				= "15.0"
+			LoadPoints			= "NO_LP" >
+			<RepositoryDescription
+				RepositorySize		= "5 4">
+				<Slot
+					Name		= "BASKET_SPECIAL_WEAPON"
+					Pos		= "8 8"
+				/>
+			</RepositoryDescription>
+			<GroupsHealth
+				Main   = "0"	
+				Breakable1   = "0.7"	
+			    	Breakable2   = "0.7"
+				Breakable3   = "0.5"
+				Breakable4   = "0.7"
+			/>			
+		</Prototype>		
+	</Folder>
+
+	<Folder Name = "Wheels">
+		<Prototype
+			Class			= "Wheel"
+			Name			= "bulldogWheel01"
+			ModelFile 		= "bulldogwheel01"
+			NodeScale		= "1 1 1"
+			Mass			= "1"
+			SuspensionModelFile	= "bulldogsusp01"
+			SuspensionCFM	= "0.002"
+			SuspensionERP		= "0.25"
+			SuspensionRange	= "0.15"
+			mU			= "1.0" 
+			EffectType		= "SMALLWHEEL" />
+
+
+		<Prototype
+			Class			= "Wheel"
+			Name			= "bulldogWheel02"
+			ModelFile 		= "bulldogwheel02"
+			NodeScale		= "1 1 1"
+			Mass			= "2"
+			SuspensionModelFile	= "bulldogsusp01"
+			SuspensionCFM	= "0.002"
+			SuspensionERP		= "0.25"
+			SuspensionRange	= "0.15"
+			mU			= "1.0"
+			EffectType		= "SMALLWHEEL" />
+
+		<Prototype
+			Class			= "Wheel"
+			Name			= "bulldogWheel03"
+			ModelFile	              	= "bulldogwheel03"
+			NodeScale		= "1 1 1"
+			Mass			= "2"
+			SuspensionModelFile	= "bulldogsusp03"
+			SuspensionCFM	= "0.002"
+			SuspensionERP		= "0.25"
+			SuspensionRange	= "0.15"
+			mU			= "1.0"
+			EffectType		= "SMALLWHEEL" />
+
+		<Prototype
+			Class			= "Wheel"
+			Name			= "bulldogWheel04"
+			ModelFile	              	= "bulldogwheel04"
+			NodeScale		= "1 1 1"
+			Mass			= "2"
+			SuspensionModelFile	= "bulldogsusp04"
+			SuspensionCFM	= "0.002"
+			SuspensionERP		= "0.25"
+			SuspensionRange	= "0.15"
+			mU			= "1.0"
+			EffectType		= "SMALLWHEEL" />			
+
+	</Folder>
+</Prototypes>

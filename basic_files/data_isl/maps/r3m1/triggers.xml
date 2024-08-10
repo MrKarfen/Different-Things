@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="windows-1251" standalone="yes" ?>
+<triggers>
+
+<!-- Different Things -->
+	<trigger Name="trDTWorkshop" active="1">
+		<event eventid="GE_GAME_START" ObjName="Player1" />
+		<script>
+			DTWorkshops(31)
+		    trigger:Deactivate()
+		</script>
+	</trigger>
+<!-- Different Things -->
+
+	<!-- Инициализация карты -->
+	<trigger	Name="GlobalVar"	active="1">
+		<event eventid="GE_GAME_START" ObjName="Player1" />
+		<script>
+			SetVar("KnownMap",0)
+			SetVar("BezhenAlive",0)
+			SetVar("OracleQuickWay",0)
+			if GAME_VERSION then SetVar("ISLVersion", GAME_VERSION) end
+
+			if QuestStatus("d_FindOracul_Quest")==Q_TAKEN then
+				GetPlayerVehicle():SetCustomLinearVelocity( 0 )
+				GetPlayerVehicle():SetThrottle( 0 )
+				TActivate("RolikBegin_ToSailSubmarine")
+
+				TakeQuest("r3m1_FindNative_2")
+				AddHistory( "r3_After_WaterGate_1" )
+				AddHistory( "r3_JustGo_1" )
+				AddFadingMsgId( "fm_history_got" )
+			end
+
+		   trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Раскладка случайного лута в ящики -->
+	<trigger	Name="trPlaceSecret"	active="1">
+		<event	timeout="0.1"			eventid="GE_TIME_PERIOD" />
+		<script>
+			local i=1
+			local gunlist = {"hornet01","specter01","pkt01","kord01","storm01","fagot01","maxim01","vector01","vulcan01","kpvt01","rapier01","flag01","someTurboAccelerationPusher", "rainmetal01","elephant01","odin01","omega01","bumblebee01","hammer01","hunterSideGun","mrakSideGun","big_swingfire01","cyclops01","octopus01","hailSideGun","hurricane01","rocketLauncher","zeusSideGun","marsSideGun"}
+			local len = getn(gunlist)
+
+			while getObj("SecretPlace"..i.."_loc")~=nil do
+				CreateBoxWithAffixGun(CVector(getPos("SecretPlace"..i.."_loc")), gunlist[exrandom(len)], random(0, 2))
+				i = i + 1
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Удаление подлодки -->
+	<trigger Name="SubmarDelete" active="0">
+		<event eventid="GE_GAME_START" ObjName="Player1" />
+		<script>
+		
+			local submar = getObj("Subm")
+			if submar then
+				submar:Remove()
+			end
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Отключение катсцены приплытие подлодки, если приехали из Либриума -->
+	<trigger	Name="CutsceneDisable"	active="0">
+		<event eventid="GE_GAME_START" ObjName="Player1" />
+		<script>
+			TActivate("CutsceneDisable2")
+
+		   trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger	Name="CutsceneDisable2"	active="0">
+		<event	timeout="2"	eventid="GE_TIME_PERIOD" />
+		<script>
+
+			local trig = getObj("trMoveFromR1M4")
+			if trig then
+				if trig:IsActivated() == 1 then
+				TDeactivate("trMoveFromR1M4")
+				end
+			end
+
+		   trigger:Deactivate()
+		</script>
+	</trigger>
+
+<!-- Приехали из Хеля все последующие разы -->
+	<trigger	Name="trMoveFromR1M4"	active="0">
+		<event eventid="GE_OBJECT_IN_LOCATION" ObjName="FromR1M4" />
+		<script>
+
+			GetPlayerVehicle():SetCustomLinearVelocity( 0 )
+			GetPlayerVehicle():SetThrottle( 0 )
+			TActivate("RolikBegin_ToSailSubmarine")
+			TDeactivate("CutsceneDisable2")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+<!-- Приехали из туннеля-->
+	<trigger	Name="trMoveFromR2M1"	active="1">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="PlayerMoveFromR2M1" />
+		<script>
+		if QuestStatus("Disk2OrakulLisa")==Q_TAKEN then
+			TDeactivate("trExitFromMap21")
+			TActivate("RolikBegin_MoveFromR2M1")
+			trigger:Deactivate()
+		end
+		</script>
+	</trigger>
+
+<!-- Разговор у фиста с охранниками-->
+	<trigger	Name="trNearFist_TalkGuard2"	active="1">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="NearFist_TalkGuard2_loc" />
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="NearFist_TalkGuard_loc" />
+		<script>
+			TActivate("RolikBegin_PostFist")
+			
+	  		trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger	Name="trCreateFistDefend"	active="0">
+		<event	timeout="1"	eventid="GE_TIME_PERIOD" />
+		<script>
+
+			for i=0,1 do
+			   local veh = getObj("FistDefenders_vehicle_"..i)
+			   if veh then
+			      veh:SetExternalPathByName("FistGuard"..(i+1).."_1")
+			   end
+			end
+
+			local veh = getObj("FistDefenders2_vehicle_0")
+			if veh then
+			   veh:SetExternalPathByName("FistGuard3_1")
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Подъезжаем к святилищу -->
+	<trigger	Name="RobotsCinem1"	active="0">
+		<event eventid="GE_OBJECT_ENTERS_LOCATION" ObjName="NearStoneHendj_loc" />
+		<script>
+			TActivate("RolikBegin_LoggersMech")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Взорвали выход для роботов-->
+	<trigger	Name="trDestroyExitFromDung"	active="0">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="ExitFromDung_loc" />
+		<script>
+			if IsQuestItemPresent( "quest_explosion_stone" ) then
+				RemoveQuestItem( "quest_explosion_stone" )
+				AddFadingMsgByStrIdFormatted( "fm_player_use_thing", "quest_explosion_stone")
+				local zrb=getObj("ZoneRobots")
+				if zrb then
+					zrb:Remove()
+				end
+				CompleteQuest("r3m1_ClearSanctuary_DestroyOut")
+                TActivate("RolikBegin_DestroyCave")
+
+				AddCinematicMessage( 1010, 1 )
+				trigger:Deactivate()
+			end
+
+		</script>
+	</trigger>
+
+	<!-- Создание машины Верховного Друида -->
+	<trigger	Name="trCreateMainDruid"	active="0">
+		<event	timeout="0.01"	eventid="GE_TIME_PERIOD" />
+		<script>
+			local DruidTeam = TeamCreate("MainDruidTeam",1019,CVector(1488.960, 288.000, 2591.133),{"Hunter02"})
+			if DruidTeam then
+				DruidTeam:GetVehicle(0):setGodMode(1)
+				DruidTeam:GetVehicle(0):setImmortalMode(1)
+			end
+
+			local DruidVeh = DruidTeam:GetVehicle(0)
+
+            local newControllerId1 = CreateNewObject {
+				prototypeName	= "someNPCMotionController",
+				objName	= "DruidController"
+			}
+
+			local newController1 = GetEntityByID(newControllerId1)
+
+			if newController1 and DruidVeh then
+				newController1:setVehicleUnderControl(DruidVeh)
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+<!-- Ролик у засады для верховного друида. -->
+	<trigger	Name="trUlukAmush"	active="0">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="UlukAmush_loc" />
+		<script>
+			TActivate("RolikBegin_AmbushDruid")
+			CompleteQuest("r3m1_LureMainDriud_Ambush")
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+<!-- Размещение беженцев из Улука -->
+	<trigger	Name="trRescArmyPlace"	active="0">
+		<event	timeout="0.01"		eventid="GE_TIME_PERIOD" />
+		<script>
+			local RescVeh = CreateTeam('RescueCars',1064,CVector(getPos('RescueCiv_loc')),{'DemoMolokovoz1','r1m1_bug02'})
+			
+			if RescVeh:GetVehicle(0) then
+				RescVeh:GetVehicle(0):SetGamePositionOnGround( CVector(1790.302, 249.817, 1177.060))
+				RescVeh:GetVehicle(0):SetRotation(Quaternion(-0.000, 0.689, 0.000, 0.725))
+			end
+			
+			if RescVeh:GetVehicle(1) then
+				RescVeh:GetVehicle(1):SetGamePositionOnGround( CVector(1838.534, 256.242, 1208.368))
+				RescVeh:GetVehicle(1):SetRotation(Quaternion(-0.082, 0.990, -0.103, 0.053))
+			end
+
+			TActivate("trRescArmyDie")
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+<!-- Ролик когда убивают лидера -->
+	<trigger	Name="trWentCivCamp"	active="0">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="RescueCiv_loc" />
+		<script>
+			TActivate("RolikBegin_RescuePeople")
+			SetTolerance(1100, 1020, RS_ENEMY)
+			SetTolerance(1065, 1020, RS_ENEMY)
+			CompleteQuest("r3m1_RescueUlukCivil_GotoVillage")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+<!-- Ролик после того, как разбили атакующих-->
+	<trigger	Name="trUlukArmyDie"	active="0">
+		<event	eventid="GE_OBJECT_DIE"	ObjName="UlukArmy" />
+		<script>
+			CompleteQuest("r3m1_RescueUlukCivil_RepelAttack")
+			TActivate("RolikBegin_ToGoInSet")
+			TDeactivate("trRescArmyDie")
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+<!-- Ролик, если убили всех жителей улука, которых надо было спасти-->
+	<trigger	Name="trRescArmyDie"	active="0">
+		<event	eventid="GE_OBJECT_DIE"	ObjName="RescueCars_vehicle_0" />
+		<event	eventid="GE_OBJECT_DIE"	ObjName="RescueCars_vehicle_1" />
+		<script>
+
+			TActivate("trRescArmyDie_Start")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger	Name="trRescArmyDie2"	active="0">
+		<event	eventid="GE_OBJECT_DIE"	ObjName="BezhenVeh1" />
+		<event	eventid="GE_OBJECT_DIE"	ObjName="BezhenVeh2" />
+		<script>
+		
+			TActivate("trRescArmyDie_Start")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Удаление машин беженцев -->
+	<trigger	Name="trRescueEnd"	active="0">
+		<event	timeout="0.1"	eventid="GE_TIME_PERIOD" />
+		<script>
+			for i=1,2 do
+				if getObj("RescCont"..i) then
+			      getObj("RescCont"..i):Remove()
+				end
+
+				if getObj("BezhenVeh"..i) then
+					getObj("BezhenVeh"..i):Remove()
+			 	end
+
+				if getObj("RescueCars_vehicle_"..i-1) then
+			    	getObj("RescueCars_vehicle_"..i-1):Remove()
+				end
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Первый беженец доехал до Сета -->
+	<trigger Name="RBezhenVeh1InPlace" active="0">
+		<event eventid="GE_TARGET_REACHED" ObjName="BezhenVeh1"/>
+		<script>
+
+			local FVehicle1 = GetEntityByName("BezhenVeh1")
+			if FVehicle1 then FVehicle1:SetExternalPathByName("Bezhen_Path2") end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Второй беженец доехал до Сета -->
+	<trigger Name="RBezhenVeh2InPlace" active="0">
+		<event eventid="GE_TARGET_REACHED" ObjName="BezhenVeh2"/>
+		<script>
+
+			local FVehicle2 = GetEntityByName("BezhenVeh2")
+			if FVehicle2 then FVehicle2:SetExternalPathByName("Bezhen_Path3") end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Оба беженца доехали до Сета -->
+	<trigger Name="RCarsInPlace" active="0">
+		<event eventid="GE_OBJECT_ENTERS_LOCATION" ObjName="RCarsSet_loc" />
+		<script>
+
+			trigger:IncCount()
+
+			local count = trigger:GetCount()
+		    if 2>count then
+		    	return
+		    end
+
+			SetVar("BezhenAlive",1)
+
+			TDeactivate("tr_RescueCarsDist")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Расстояние между машинами беженцев -->
+	<trigger Name="tr_RescueCarsDist" active="0">
+		<event        timeout="1"        eventid="GE_TIME_PERIOD" />
+		<script>
+			local run = GetEntityByName("BezhenVeh1")
+			local pl = GetEntityByName("BezhenVeh2")
+			local len
+			
+			if run and run:IsAlive() then
+				if pl and pl:IsAlive() then
+					len = Dist(pl, run)
+					if (len > 75) then
+						if Dist(run, getObj("Set_enter")) > Dist(pl, getObj("Set_enter")) then
+							pl:SetCustomLinearVelocity( 0 )
+							pl:SetThrottle( 0 )
+						else
+							run:SetCustomLinearVelocity( 0 )
+							run:SetThrottle( 0 )
+						end
+					end
+				end
+			end
+
+		</script>
+	</trigger>
+
+	<!-- Выход с карты на подводной лодке-->
+	<trigger Name="trMovePlToR1M4" active="1">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="EnterToSubmarine_loc" />
+		<script>
+			local Plf = GetPlayerVehicle()
+			Plf:SetThrottle( 0 )
+			Plf:SetCustomLinearVelocity( 0 )
+
+			local PlfID = GetPlayerVehicleId()
+			local PlfCoor = Plf:GetPosition()
+			PlfCoor.x = PlfCoor.x + 30
+			PlfCoor.y = PlfCoor.y + 5
+			PlfCoor.z = PlfCoor.z - 15
+
+			ValidateGameVersion()
+
+			if IsQuestItemPresent( "quest_key_for_submarine" ) or  IsQuestItemPresent( "quest_key_for_submarine1" ) then
+				local b = SpawnMessageBox( "8801" )
+				if b == 1 then
+					TActivate("RolikBegin_ToComeSubmarine")
+				else
+					SaveAllToleranceStatus(RS_NEUTRAL)
+
+					FlyAround(0.1, 0, -45, 3, PlfCoor, PlfID, 1, 1 )
+					StartCinematic()
+
+					TActivate ("trMovePlToR1M4_Fade")
+					TActivate ("trMovePlToR1M4_End")
+				end
+			else
+				AddImportantFadingMsgId( "fm_key_lost" )
+			end
+
+		</script>
+	</trigger>
+	<trigger Name="trMovePlToR1M4_Fade" active="0">
+		<event eventid="GE_CINEMATIC_ENTER_FADE_IN" ObjName="Player1" />
+		<script>
+			
+			local Plf = GetPlayerVehicle()
+			Plf:SetThrottle( 0 )
+			Plf:SetCustomLinearVelocity( 0 )
+
+			trigger:Deactivate()    
+		</script>
+	</trigger>
+	<trigger Name="trMovePlToR1M4_End" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+			RestoreAllToleranceStatus()
+
+			local Plf = GetPlayerVehicle()
+			if Plf then
+				Plf:SetGamePositionOnGround( CVector(3788.010, 252.965, 1923.627))
+				Plf:SetRotation(Quaternion(-0.000, -0.962, -0.001, 0.274))
+			end
+
+			TDeactivate( "trMovePlToR1M4_Fade" )
+
+			SetCameraBehindPlayerVehicle()
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+<!--  Выход с карты во второй регион-->
+	<trigger Name="trExitFromMap21" active="1">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="ExitFromMapTo21" />
+		<script>
+			local Plf = GetPlayerVehicle()
+			Plf:SetThrottle( 0 )
+			Plf:SetCustomLinearVelocity( 0 )
+
+			local PlfID = GetPlayerVehicleId()
+			local PlfCoor = Plf:GetPosition()
+			PlfCoor.x = PlfCoor.x + 35
+			PlfCoor.y = PlfCoor.y + 10
+			PlfCoor.z = PlfCoor.z + 35
+
+			if IsQuestTaken("Disk2OrakulLisa") then
+				ValidateGameVersion()
+
+				local b = SpawnMessageBox( "8801" )
+    			if b == 1 then
+					PassToMap("r2m1", "FromR3M1", -1 )
+
+					TActivate("trMoveFromR1M4")
+					TActivate("CutsceneDisable")
+
+					TDeactivate("UlukBattle2")
+				else
+					SaveAllToleranceStatus(RS_NEUTRAL)
+
+					FlyAround(0.1, 0, -25, 3, PlfCoor, PlfID, 1, 1 )
+					StartCinematic()
+
+					TActivate("trExitFromMap21_End")
+
+					trigger:Deactivate()
+				end
+			else
+				SaveAllToleranceStatus(RS_NEUTRAL)
+
+				
+				FlyAround(0.5, 0, -45, 9, PlfCoor, PlfID, 1, 1 )
+				StartCinematic()
+
+				AddCinematicMessage(8803, 0.5)
+
+				TActivate("trExitFromMap21_End")
+
+				trigger:Deactivate()
+			end
+ 		</script>
+	</trigger>
+
+	<trigger Name="trExitFromMap21_End" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+			RestoreAllToleranceStatus()
+
+			Plf = GetPlayerVehicle()
+			if Plf then
+				Plf:SetGamePositionOnGround(CVector(877.703, 289.290, 998.304))
+				Plf:SetRotation(Quaternion(0.002, 0.354, 0.004, 0.935))
+			end
+
+			SetCameraBehindPlayerVehicle()
+
+			TActivate("trExitFromMap21")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+<!-- Выход с карты в 3й регион-->
+	<trigger Name="trExitFromMap32" active="1">
+		<event	eventid="GE_OBJECT_ENTERS_LOCATION"	ObjName="ExitFromMapTo32" />
+		<script>
+			local Plf = GetPlayerVehicle()
+			Plf:SetThrottle( 0 )
+			Plf:SetCustomLinearVelocity( 0 )
+
+			local PlfID = GetPlayerVehicleId()
+			local PlfCoor = Plf:GetPosition()
+			PlfCoor.x = PlfCoor.x + 5
+			PlfCoor.y = PlfCoor.y + 5
+			PlfCoor.z = PlfCoor.z + 15
+
+			if IsQuestTaken("r3m1_GoToOracle")~=nil then 
+				ValidateGameVersion()
+
+				local b = SpawnMessageBox( "8801" )
+				if b == 1 then
+					PassToMap("r3m2", "FromR3M1", -1 )
+					TDeactivate("UlukBattle2")
+
+					local Fion = getObj("Set_Bar_Customer1")
+					if Fion then Fion:SetSpokenCount( 1 ) end
+
+					if QuestStatus("r3m1_LureMainDriud")==Q_COMPLETED then
+						if not getObj("TheSetFlag1") then
+							SetTolerance(1100, 1020, RS_ALLY)
+							SetTolerance(1100, 1019, RS_ALLY)
+							CreateNewDummyObject("flagshtock", "TheSetFlag1", -1, -1, CVector(1524.083, 321.837, 2653.771), Quaternion(0.0000, -0.1629, 0.0000, 0.9866), 9)
+							local town = getObj("TheSet")
+							if town then town:SetBelong(1020) end
+						end
+					end
+				else
+					SaveAllToleranceStatus(RS_NEUTRAL)
+
+					FlyAround(0.1, 0, 25, 3, PlfCoor, PlfID, 1, 1 )
+					StartCinematic()
+
+					TActivate("trExitFromMap32_End")
+				end
+			else
+				if QuestStatus("r3m1_LureMainDriud_Ambush")~=Q_TAKEN and QuestStatus("r3m1_RescueUlukCivil")~=Q_TAKEN then
+					ValidateGameVersion()
+
+					local b = SpawnMessageBox( "8801" )
+
+					if b == 1 then
+						TDeactivate("UlukBattle2")
+
+						local Fion = getObj("Set_Bar_Customer1")
+						if Fion then Fion:SetSpokenCount( 1 ) end
+
+						TActivate("cinFastPlay1")
+						TActivate("trInfectionChange")
+					else
+						SaveAllToleranceStatus(RS_NEUTRAL)
+
+						FlyAround(0.5, 0, 25, 7, PlfCoor, PlfID, 1, 1 )
+						StartCinematic()
+
+						AddCinematicMessage(8802, 0.5)
+
+						TActivate("trExitFromMap32_End")
+					end
+				else
+					SaveAllToleranceStatus(RS_NEUTRAL)
+
+					FlyAround(0.5, 0, 25, 7, PlfCoor, PlfID, 1, 1 )
+					StartCinematic()
+
+					AddCinematicMessage(8802, 0.5)
+
+					TActivate("trExitFromMap32_End")
+				end
+			end
+ 		</script>
+	</trigger>
+
+	<trigger Name="trExitFromMap32_End" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+			RestoreAllToleranceStatus()
+
+			Plf = GetPlayerVehicle()
+			if Plf then
+				Plf:SetGamePositionOnGround(CVector(1110.618, 354.281, 3722.601))
+				Plf:SetRotation(Quaternion(-0.000, 0.968, 0.000, -0.250))
+			end
+
+			SetCameraBehindPlayerVehicle()
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	
+	<!-- Битва возле Улука со жрецом -->
+	<trigger Name="PreUlukBattle" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+			TActivate("UlukBattle")
+
+			SetCameraBehindPlayerVehicle()
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger	Name="UlukBattle"	active="0">
+		<event	timeout="0"	eventid="GE_TIME_PERIOD" />
+		<script>
+			SetTolerance(1100, 1034, RS_ENEMY)
+
+			TeamCreate("UlukZhrec",1034,CVector(1454.042, 249.000, 726.375),{"CruiserZhrec"})
+
+			TActivate("UlukBattle2")
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger	Name="UlukBattle2"	active="0">
+		<event	eventid="GE_OBJECT_DIE"	ObjName="UlukZhrec" />
+		<script>
+
+			AddBook("r3_book_transformer")
+
+			SetTolerance(1100, 1020, RS_NEUTRAL)
+
+        	trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Активация диалога при выезде из Улука -->
+	<trigger	Name="tr_PlayerLeavesUluk"	active="0">
+		<event eventid="GE_OBJECT_LEAVES_LOCATION" ObjName="RescueLeader_loc" />
+		<script>
+			SetVar("BezhenAlive",5)
+
+			StartConversation("r3m1_NearUluk_RescueMan1")
+
+        	trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<!-- Смена белонгов и прототипов динамических врагов на роботов после победы ДЖ -->
+	<trigger Name="trInfectionChange" active="0">
+		<event	timeout="0.01"		eventid="GE_TIME_PERIOD" />
+		<script>
+
+			local zones = {"ZoneBandit1", "ZoneRazboynik2", "ZoneBandit3", "ZoneBandit"}
+			local len = getn(zones)
+
+			for i = 1, len do
+				local zone = getObj(zones[i])
+				if zone then
+					zone:SetProperty("Belong", 1022)
+					zone:SetProperty("InfectionTeamPrototypeName", "r3m2_RobotsTeam")
+				end
+			end
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+</triggers>
