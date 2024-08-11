@@ -18,8 +18,6 @@ Different Things - небольшой мод, добавляющий в игру
 * Добавлены вариации некоторого оригинального оружия (все новые варианты имеют уникальные модели): ПКТУ, ПКТ Штурмовой, Вулкан-МК2, Шторм-МК2, Рапира-МК2, Американский Шершень.
 * Доведены до ума гранатомёты "Шмель" и "Омега".
 * Добавлен в продажу Крейсер.
-* Иконки кабин и кузовов Вэна и Молоковоза теперь соответствуют их моделям из Community Remaster.
-* Исправлено положение оружия у баррикад.
 ### Изменения вносимые опцией "Больше фраз во время боя"
 * Добавлены новые фразы во время боя у главного героя.
 ### Изменения вносимые опцией "Альтернативные скины Бульдога"
@@ -34,8 +32,10 @@ Different Things - небольшой мод, добавляющий в игру
 ## Совместимые моды
 * Improved Storyline  (устанавливать до Different Things)
 * Extra Machines  (устанавливать до Different Things)
+* Doomer Wave  (устанавливать до Different Things)
 * AmmoMiniMod Reborn  (устанавливать после Different Things)
 * Textures Update  (устанавливать после Different Things)
+* Rusty Interface  (устанавливать после Different Things)
 
 ## Скриншоты
 ![screen01](https://github.com/MrKarfen/Different-Things/assets/89936556/e64b1223-a970-4287-92fe-5a4c5a603b2b)
@@ -69,8 +69,6 @@ Author - MrKarfen
 * New variants of some standard weapons have been added (all new variants have unique models): PKT, PKT-MK2, Vulkan-MK2, Storm-MK2, Rapier-MK2, American Hornet.
 * The Bumblebee and Omega grenade launchers have been improved.
 * The Cruiser vehicle has been added to the sale.
-* The icons of the cabins and cargoes of the Van and Lorry cars now correspond to their models from the Community Remaster.
-* Fixed the position of weapons at the barricades.
 ### Changes made by the option "More phrases during the fight"
 * Added new phrases to the main character during the battle.
 ### Changes made by the option "Alternative painting of the Bulldog vehicle"
@@ -85,8 +83,10 @@ Author - MrKarfen
 ## Compatible mods
 * Improved Storyline  (install before "Different Things")
 * Extra Machines  (install before "Different Things")
+* Doomer Wave  (install before "Different Things")
 * AmmoMiniMod Reborn  (install after "Different Things")
 * Textures Update  (install after "Different Things")
+* Rusty Interface  (install after "Different Things")
 
 ## Screenshots
 ![screen01](https://github.com/MrKarfen/Different-Things/assets/89936556/e64b1223-a970-4287-92fe-5a4c5a603b2b)
