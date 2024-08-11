@@ -44,6 +44,9 @@ Different Things - небольшой мод, добавляющий в игру
 ![screen04](https://github.com/MrKarfen/Different-Things/assets/89936556/7327fba9-eda2-4589-9b1c-16b9f9296dfd)
 ![screen05](https://github.com/MrKarfen/Different-Things/assets/89936556/10546814-c067-4eb2-bd43-89b71700949f)
 
+## Скачать
+Актуальную версию модификации можно скачать на [странице релизов](https://github.com/MrKarfen/Different-Things/releases)
+
 ## Благодарности
 * Seel - за базовую HD модель "Бульдога"
 * Bat13 - за дизайн и идею "Бульдога"
@@ -91,6 +94,9 @@ Author - MrKarfen
 ![screen03](https://github.com/MrKarfen/Different-Things/assets/89936556/c55e9520-912a-4edd-ba8b-e237a201a7f8)
 ![screen04](https://github.com/MrKarfen/Different-Things/assets/89936556/7327fba9-eda2-4589-9b1c-16b9f9296dfd)
 ![screen05](https://github.com/MrKarfen/Different-Things/assets/89936556/10546814-c067-4eb2-bd43-89b71700949f)
+
+## Download
+The actual version of the modification can be downloaded on the [releases page](https://github.com/MrKarfen/Different-Things/releases)
 
 ## Thanks
 * Seel - for the basic HD model of the "Bulldog"
