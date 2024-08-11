@@ -31,6 +31,12 @@ screenshots:
 translations: [eng]
 # installation confguration
 prerequisites:
+  - name: community_remaster
+    versions:
+      - ">=1.14"
+    optional_content:
+    - hd_gun_models
+    - hd_vehicle_models
   - name: [improved_storyline_hd]
     versions:
      - ">=1.2"

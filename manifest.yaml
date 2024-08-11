@@ -31,7 +31,7 @@ screenshots:
       text: Крейсер с оружием "ДШК" и "Бофорс".    
     
 translations: [eng]
-variants: [ExtraMachines, isl, islem]
+variants: [ExtraMachines, DW, isl, islem]
 # installation confguration
 prerequisites: 
   - name: community_remaster

@@ -19698,22 +19698,6 @@
 				effect_id="ET_PS_GLOW"
 				restartOnAnimationChange="0" />
 		</action>
-		<action
-			name="RESERVED2">
-			<lp
-				id="LP_GLOW01"
-				effect_id="ET_PS_GLOW"
-				restartOnAnimationChange="0" />
-
-			<lp
-				id="LP_GLOW02"
-				effect_id="ET_PS_GLOW"
-				restartOnAnimationChange="0" />
-			<lp
-				id="LP_GLOW03"
-				effect_id="ET_PS_GLOW"
-				restartOnAnimationChange="0" />
-		</action>
 	</model>
 
 	<model
@@ -19733,22 +19717,6 @@
 
 		<action
 			name="MOVE2">
-			<lp
-				id="LP_GLOW01"
-				effect_id="ET_PS_GLOW"
-				restartOnAnimationChange="0" />
-
-			<lp
-				id="LP_GLOW02"
-				effect_id="ET_PS_GLOW"
-				restartOnAnimationChange="0" />
-			<lp
-				id="LP_GLOW03"
-				effect_id="ET_PS_GLOW"
-				restartOnAnimationChange="0" />
-		</action>
-		<action
-			name="RESERVED2">
 			<lp
 				id="LP_GLOW01"
 				effect_id="ET_PS_GLOW"

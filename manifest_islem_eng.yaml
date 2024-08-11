@@ -42,7 +42,7 @@ prerequisites:
      - ">=1.2"
   - name: ExtraMachines_ISL
     versions:
-     - "=1.2"
+     - ">=1.2"    
 patcher_version_requirement: "2.1"
 no_base_content: false
 data_dirs:

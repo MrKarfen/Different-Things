@@ -33,13 +33,13 @@ translations: [eng]
 prerequisites: 
   - name: community_remaster
     versions:
-      - "=1.14"
+      - ">=1.14"
     optional_content:
     - hd_gun_models
     - hd_vehicle_models
   - name: ExtraMachines
     versions:
-     - "=1.2"
+     - ">=1.2"    
 patcher_version_requirement: "2.1"
 no_base_content: false
 data_dirs:
